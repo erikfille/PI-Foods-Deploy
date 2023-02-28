@@ -18,7 +18,7 @@ recipeRouter.get("/all", async (req, res) => {
     // Consulta la API
     let apiRecipes = await getAPIRecipes();
 
-    if(apiRecipes.length < 1) apiRecipes= []
+    if (apiRecipes.length < 1) apiRecipes = [];
 
     // Consulta la DB
     let dbRecipes = await getDBRecipes();
@@ -40,10 +40,12 @@ recipeRouter.get("/", async (req, res) => {
 
     // let apiRecipes=[]
     // Consulta la API
-    let apiRecipes = await getAPIRecipes(name);
 
-    if(apiRecipes.length < 1) apiRecipes= []
-
+    try {
+      let apiRecipes = await getAPIRecipes(name);
+    } catch (error) {
+      apiRecipes = [];
+    }
     // Consulta la DB
     let dbRecipes = await getDBRecipes(name);
 
