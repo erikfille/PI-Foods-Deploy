@@ -14,9 +14,11 @@ const {
 // Ruta extra para agregar una funcion de "Comidas del dia"
 recipeRouter.get("/all", async (req, res) => {
   try {
-    let apiRecipes = [];
+    // let apiRecipes = [];
     // Consulta la API
-    // let apiRecipes = await getAPIRecipes();
+    let apiRecipes = await getAPIRecipes();
+
+    if(apiRecipes.length < 1) apiRecipes= []
 
     // Consulta la DB
     let dbRecipes = await getDBRecipes();
@@ -36,9 +38,11 @@ recipeRouter.get("/", async (req, res) => {
   try {
     const { name } = req.query;
 
-    let apiRecipes=[]
+    // let apiRecipes=[]
     // Consulta la API
-    // let apiRecipes = await getAPIRecipes(name);
+    let apiRecipes = await getAPIRecipes(name);
+
+    if(apiRecipes.length < 1) apiRecipes= []
 
     // Consulta la DB
     let dbRecipes = await getDBRecipes(name);
