@@ -22,6 +22,9 @@ import Renderer from "./components/Cards/Renderer";
 import Detail from "./components/Cards/Detail";
 import Form from "./components/Creation/Form";
 import About from "./components/About/About";
+import axios from 'axios'
+axios.defaults.baseURL = 'http://localhost:3001/'
+
 
 function App() {
   const dispatch = useDispatch();
@@ -80,28 +83,26 @@ function App() {
   }, [search, currentPage, orderBy, filterByDiet]);
 
   useEffect(() => {
-    fetch(`http://localhost:3001/recipes/all`)
-      .then((response) => response.json())
-      .then((data) => {
+    axios.get(`/recipes/all`)
+      .then((response) => {
         let dailyMeals = [];
-
-        let breakfast = data.find((r) => r.dishTypes.includes("Breakfast"));
+        let breakfast = response.data.find((r) => r.dishTypes.includes("Breakfast"));
         let lunch =
-          data.find((r) => r.dishTypes.includes("Lunch") && r !== breakfast) ||
-          data.find((r) => r.dishTypes.includes("Lunch"));
+          response.data.find((r) => r.dishTypes.includes("Lunch") && r !== breakfast) ||
+          response.data.find((r) => r.dishTypes.includes("Lunch"));
         let brunch =
-          data.find(
+          response.data.find(
             (r) =>
               r.dishTypes.includes("Brunch") && r !== breakfast && r !== lunch
-          ) || data.find((r) => r.dishTypes.includes("Brunch"));
+          ) || response.data.find((r) => r.dishTypes.includes("Brunch"));
         let dinner =
-          data.find(
+          response.data.find(
             (r) =>
               r.dishTypes.includes("Dinner") &&
               r !== breakfast &&
               r !== lunch &&
               r !== brunch
-          ) || data.find((r) => r.dishTypes.includes("Dinner"));
+          ) || response.data.find((r) => r.dishTypes.includes("Dinner"));
 
         dailyMeals.push(breakfast, lunch, brunch, dinner);
 
@@ -110,16 +111,15 @@ function App() {
   }, [dispatch]);
 
   useEffect(() => {
-    fetch("http://localhost:3001/diet/")
-      .then((response) => response.json())
-      .then((data) => {
-        data.sort((a, b) => {
+    axios.get("/diet/")
+      .then((response) => {
+        response.data.sort((a, b) => {
           if (a < b) return -1;
           if (a > b) return 1;
           return 0;
         });
-        data.unshift("All");
-        setDiets(data);
+        response.data.unshift("All");
+        setDiets(response.data);
       });
     return () => {
       setDiets([]);
@@ -158,24 +158,17 @@ function App() {
 
   async function createRecipe(userData) {
     setLoading(true);
-    const response = await fetch("http://localhost:3001/recipes", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(userData),
-    });
-    let data = await response.json();
+    const response = await axios.post("/recipes", userData);
     setLoading(false);
-    return window.alert(data.res);
+    console.log(response.data)
+    return window.alert(response.data.res);
   }
 
   async function onSearch(name) {
     setLoading(true);
-    await fetch(`http://localhost:3001/recipes?name=${name}`)
-      .then((response) => response.json())
-      .then((data) => {
-        dispatch(getAllRecipes(data));
+    await axios.get(`/recipes?name=${name}`)
+      .then((response) => {
+        dispatch(getAllRecipes(response.data));
         setLoading(false);
       });
   }

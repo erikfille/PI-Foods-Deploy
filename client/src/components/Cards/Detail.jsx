@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Loader from "../Loader/Loader";
+import axios from 'axios';
 import "./detail.modules.css";
 
 export default function Detail() {
@@ -20,7 +21,7 @@ export default function Detail() {
   const { recipeId } = useParams();
 
   useEffect(() => {
-    fetch(`http://localhost:3001/recipes/${recipeId}`)
+    axios.get(`/recipes/${recipeId}`)
       .then((response) => response.json())
       .then((data) => {
         setRecipe(data);
