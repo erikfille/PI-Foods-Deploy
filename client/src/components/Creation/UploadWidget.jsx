@@ -1,8 +1,5 @@
 import { useEffect, useRef } from "react";
-import * as dotenv from "dotenv";
-dotenv.config();
 
-const { CLOUDNAME, UPLOAD_PRESET } = process.env;
 
 export default function UploadWidget(props) {
   const cloudinaryRef = useRef();
@@ -12,8 +9,8 @@ export default function UploadWidget(props) {
     cloudinaryRef.current = window.cloudinary;
     widgetRef.current = cloudinaryRef.current.createUploadWidget(
       {
-        cloudName: CLOUDNAME,
-        uploadPreset: UPLOAD_PRESET,
+        cloudName: "efille",
+        uploadPreset: "The Good Cook Book",
       },
       function (error, result) {
         if (!error && result && result.event === "success") {

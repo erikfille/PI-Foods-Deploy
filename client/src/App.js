@@ -24,6 +24,7 @@ import Form from "./components/Creation/Form";
 import About from "./components/About/About";
 import axios from 'axios'
 axios.defaults.baseURL = 'https://pi-foods-deploy-production.up.railway.app'
+// axios.defaults.baseURL = 'http://localhost:3001'
 
 
 function App() {
