@@ -23,7 +23,7 @@ import Detail from "./components/Cards/Detail";
 import Form from "./components/Creation/Form";
 import About from "./components/About/About";
 import axios from 'axios'
-axios.defaults.baseURL = 'pi-foods-deploy-production.up.railway.app'
+axios.defaults.baseURL = 'https://pi-foods-deploy-production.up.railway.app'
 
 
 function App() {
