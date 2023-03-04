@@ -22,7 +22,6 @@ export default function Detail() {
 
   useEffect(() => {
     axios.get(`/recipes/${recipeId}`)
-      .then((response) => response.json())
       .then((data) => {
         setRecipe(data);
       })
