@@ -23,8 +23,8 @@ export default function Detail() {
   useEffect(() => {
     axios.get(`/recipes/${recipeId}`)
       .then((data) => {
-        console.log(data)
-        setRecipe(data);
+        console.log(data.data)
+        setRecipe(data.data);
       })
       .catch((error) => window.alert("Algo salio mal, intentalo nuevamente"));
 
